@@ -14,7 +14,17 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { GameInfoComponent } from './game-info/game-info.component';
-import {MatCardModule} from '@angular/material/card';
+import { MatCardModule } from '@angular/material/card';
+import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
+
+import { provideAuth,getAuth } from '@angular/fire/auth';
+import { provideDatabase,getDatabase } from '@angular/fire/database';
+import { provideFirestore,getFirestore } from '@angular/fire/firestore';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';
+import { environment } from 'src/environments/environment.prod';
+import { PlayerMobileComponent } from './player-mobile/player-mobile.component';
 
 
 
@@ -26,9 +36,14 @@ import {MatCardModule} from '@angular/material/card';
     GameComponent,
     PlayerComponent,
     DialogAddPlayerComponent,
-    GameInfoComponent
+    GameInfoComponent,
+    PlayerMobileComponent
   ],
   imports: [
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule.enablePersistence(),
+    AngularFireStorageModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
@@ -37,7 +52,11 @@ import {MatCardModule} from '@angular/material/card';
     MatDialogModule,
     MatInputModule,
     FormsModule,
-    MatCardModule
+    MatCardModule,
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideAuth(() => getAuth()),
+    provideDatabase(() => getDatabase()),
+    provideFirestore(() => getFirestore())
   ],
   providers: [],
   bootstrap: [AppComponent]
