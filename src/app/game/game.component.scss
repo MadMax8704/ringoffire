@@ -10,6 +10,9 @@
 
 .card-stack {
     position: relative;
+    @media (max-width: 480px) {
+        bottom: 5%;
+    }
 
     img {
         position: absolute;
@@ -19,7 +22,7 @@
 
 .played-card {
     right: 25px;
-    transform: scale(1.0) translateX(200px) translateY(-250px) rotate(-10deg);
+    transform: scale(1.0) translateX(180px) translateY(-200px) rotate(-10deg);
 }
 
 .top-card {
@@ -33,7 +36,7 @@
 
 .pick-card {
     animation: pick-card-animation 1.25s ease-in-out;
-    transform: scale(1.0) translateX(200px) translateY(-250px) rotate(-10deg);
+    transform: scale(1.0) translateX(180px) translateY(-200px) rotate(-10deg);
 }
 
 @keyframes pick-card-animation {
@@ -48,7 +51,7 @@
     }
     
     100% {
-        transform: scale(1.0) translateX(200px) translateY(-250px) rotate(-10deg);
+        transform: scale(1.0) translateX(180px) translateY(-200px) rotate(-10deg);
     }
 }
 
@@ -88,5 +91,13 @@
 
     app-player-mobile {
         margin-left: 8px;
+    }
+}
+
+app-player, app-player-mobile {
+    cursor: pointer;
+
+    &:hover {
+        filter: brightness(1.15);
     }
 }

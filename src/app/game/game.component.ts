@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player.component';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { ActivatedRoute } from '@angular/router';
+import { EditPlayerComponent } from '../edit-player/edit-player.component';
 
 
 @Component({
@@ -14,9 +15,9 @@ import { ActivatedRoute } from '@angular/router';
 export class GameComponent implements OnInit {
 
   game: Game;
-  gameId:string;
+  gameId: string;
 
-  constructor(private route: ActivatedRoute, private firestore: AngularFirestore,public dialog: MatDialog) { }
+  constructor(private route: ActivatedRoute, private firestore: AngularFirestore, public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.newGame();
@@ -24,20 +25,20 @@ export class GameComponent implements OnInit {
       console.log(params['id']);
       this.gameId = params['id'];
       this
-      .firestore
-      .collection('games')
-      .doc(params['id'])
-      .valueChanges()
-      .subscribe((game:any) =>{
-        console.log('Game update', game);
-        this.game.currentPlayer = game.currentPlayer;
-        this.game.playedCard = game.playedCard;
-        this.game.players = game.players;
-        this.game.stack = game.stack;
-        this.game.pickCardAnimation = game.pickCardAnimation;
-        this.game.currentCard = game.currentCard;
-      });
-    
+        .firestore
+        .collection('games')
+        .doc(params['id'])
+        .valueChanges()
+        .subscribe((game: any) => {
+          console.log('Game update', game);
+          this.game.currentPlayer = game.currentPlayer;
+          this.game.playedCard = game.playedCard;
+          this.game.players = game.players;
+          this.game.stack = game.stack;
+          this.game.pickCardAnimation = game.pickCardAnimation;
+          this.game.currentCard = game.currentCard;
+        });
+
     });
 
   }
@@ -53,7 +54,7 @@ export class GameComponent implements OnInit {
       this.game.pickCardAnimation = true;
       this.game.currentPlayer++;
       this.game.currentPlayer = this.game.currentPlayer % this.game.players.length;
-      
+
       this.saveGame();
       setTimeout(() => {
         this.game.pickCardAnimation = false;
@@ -61,6 +62,16 @@ export class GameComponent implements OnInit {
         this.saveGame();
       }, 1250);
     }
+  }
+
+  editPlayer(playerId: number) {
+    console.log('Edit player', playerId);
+
+    const dialogRef = this.dialog.open(EditPlayerComponent);
+    dialogRef.afterClosed().subscribe((change: string) => {
+      console.log('Recieved change',change);
+    });
+
   }
 
   openDialog(): void {
