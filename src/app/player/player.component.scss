@@ -4,11 +4,14 @@
     align-items: center;
     border-top-left-radius: 50px;
     border-bottom-left-radius: 50px;
-    
+    overflow: hidden;
 
     span{
-        font-size: 32px;
+        font-size: 24px;
         margin-left: 16px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
     }
     background-color: rgba(158, 149, 133, 0.71);
 
