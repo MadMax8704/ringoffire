@@ -21,7 +21,6 @@ export class GameComponent implements OnInit {
   game: Game;
   gameId: string;
   gameOver: boolean = false;
-  changed: string;
   
 
   constructor(private route: ActivatedRoute, private firestore: AngularFirestore, public dialog: MatDialog) { }
@@ -59,13 +58,13 @@ export class GameComponent implements OnInit {
   takeCard() {
     if (this.game.stack.length == 0) {
       this.gameOver = true;
-    } else if (!this.game.pickCardAnimation) {
+    } else if (!this.game.pickCardAnimation && this.game.players.length > 3) {
       this.game.currentCard = this.game.stack.pop();
       this.game.pickCardAnimation = true;
       this.game.currentPlayer++;
       this.game.currentPlayer = this.game.currentPlayer % this.game.players.length;
-
       this.saveGame();
+
       setTimeout(() => {
         this.game.pickCardAnimation = false;
         this.game.playedCard.push(this.game.currentCard);
@@ -77,6 +76,10 @@ export class GameComponent implements OnInit {
   editPlayer(playerId: number) {
     console.log('Edit player', playerId);
     const dialogRef = this.dialog.open(EditPlayerComponent);
+    dialogRef.componentInstance.name = this.game.players[playerId];
+    dialogRef.componentInstance.player_image = this.game.player_images[playerId];
+    dialogRef.componentInstance.allGivenPictures = this.game.player_images;
+    
     dialogRef.afterClosed().subscribe((change: string) => {
       if (change) {
         if (change == 'DELETE') {
@@ -85,18 +88,12 @@ export class GameComponent implements OnInit {
         } else {
           console.log('Recieved change', change);
           this.game.player_images[playerId] = change;
-          this.changed = change;
-          console.log('Recieved change in Function', this.changed);
-        }
-        this.saveGame();
 
+          this.saveGame();
+        }
       }
     });
 
-  }
-
-  afterChange() {
-    return this.changed;
   }
 
 
