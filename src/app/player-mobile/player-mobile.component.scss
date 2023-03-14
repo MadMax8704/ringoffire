@@ -6,12 +6,11 @@
     border-bottom-left-radius: 50px;
     flex-direction: column;
     
-
+    
     span{
         font-size: 20px;
         margin-top: 16px;
         margin-bottom: 10px;
-        
     }
     background-color: rgba(158, 149, 133, 0.71);
 
@@ -24,5 +23,5 @@
 }
 
 .player-active {
-    background-color: rgb(255, 166, 0) !important;
+    background: linear-gradient(0deg, rgba(252, 252, 252, 1) 0%, rgba(137, 203, 217, 1) 9%, rgba(221, 165, 19, 1) 92%);
 }

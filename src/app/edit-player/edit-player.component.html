@@ -1,9 +1,9 @@
-<h1 mat-dialog-title>Edit Player</h1>
+<h1 mat-dialog-title>{{name}}</h1>
 
 <img class="profile-picture" [mat-dialog-close]="picture"  *ngFor="let picture of awalibleProfilePictures"
   src="./assets/img/profiles/{{ picture }}">
 
-<input matInput [(ngModel)]="name" type="text" >
+
 
 <div mat-dialog-actions>
   <button mat-button (click)="dialogRef.close()">Close</button>

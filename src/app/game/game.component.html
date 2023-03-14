@@ -1,21 +1,31 @@
-<app-player (click) ="editPlayer(i)" *ngFor="let player of game.players let i = index" [ngStyle]="{'top.px': 100+ (i * 90)}" [name]="player" [image]="game.player_images[i]"
-    class="player-position hide-mobile" 
-    style="top:130px" [playerActive]="i == game.currentPlayer">
-</app-player>
+<ng-container *ngIf="!gameOver">
+    <div class="player-container">
+    <app-player (click)="editPlayer(i)" *ngFor="let player of game.players let i = index"
+        [ngStyle]="{'top.px': 50 + (i * 90)}" [name]="player" [image]="game.player_images[i]"
+        class="player-position hide-mobile" style="top:130px" [playerActive]="i == game.currentPlayer">
+    </app-player>
+</div>
+</ng-container>
 
-<div class="scroll-container">
-    <app-player-mobile (click) ="editPlayer(i)" *ngFor="let player of game.players let i = index"
-        [name]="player" class="hide-desktop" [image]="game.player_images[i]"
-        [playerActive]="i == game.currentPlayer">
+
+<div *ngIf="!gameOver" class="options" (click)="changeBackground()">
+    <img src="assets/img/options.png" alt="">
+    <p>Change <br> background</p>
+</div>
+
+<div *ngIf="!gameOver" class="scroll-container">
+    <app-player-mobile (click)="editPlayer(i)" *ngFor="let player of game.players let i = index" [name]="player"
+        class="hide-desktop" [image]="game.player_images[i]" [playerActive]="i == game.currentPlayer">
     </app-player-mobile>
 </div>
 
 <div class="game_over" *ngIf="gameOver">
     <img src="assets/img/game_over.jpg">
+    <button [routerLink]="''" mat-raised-button>New Game</button>
 </div>
 
 
-<div *ngIf="!gameOver" class="field">
+<div *ngIf="!gameOver" class="field {{backgroundImg}}">
     <div class="card-stack">
         <!-- Card stack -->
         <img [ngStyle]="{'right.px': i * 5}" *ngFor="let c of[0,1,2,3]; let i = index;"

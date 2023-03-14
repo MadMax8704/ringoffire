@@ -2,41 +2,105 @@
     width: 100vw;
     height: 100vh;
     max-width: 100%;
-    background-image: url("./../../assets/img/board.jpg");
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.card-stack {
-    position: relative;
-    @media (max-width: 480px) {
-        bottom: 5%;
+.background-1 {
+    background-image: url("./../../assets/img/board-1.jpg");
+}
+.background-2 {
+    background-image: url("./../../assets/img/board-2.jpg");
+    background-position: center;
+    background-size: cover;
+}
+.background-3 {
+    background-image: url("./../../assets/img/board-3.jpg");
+    background-position: center;
+    background-size: cover;
+}
+
+.player-container {
+    position: absolute;
+    right: 0;
+    left: 0;
+    top:50px;
+    bottom: 150px;
+    overflow: auto;
+}
+
+.options {
+    position: absolute;
+    height: 60px;
+    top: 100px;
+    left: 100px;
+    display: flex;
+    align-items: center;
+    color: white;
+    z-index: 2;
+    p{
+        padding-left: 5px;
+        margin: 0;
+        font-size: 0rem;
     }
 
+    img{
+        width: 40px;
+    }
+    &:hover {
+        cursor: pointer;
+        img{
+            width: 45px;
+        }
+        p{
+            font-size: 1rem;
+        }
+    }
+    
+}
+
+.card-stack {
+    position: relative;
+    right: 130px;
+    @media (max-width: 720px) {
+        bottom: 5%;
+        right: 0;
+    }
+    @media (max-width: 480px) {
+        bottom: 0;
+    }
     img {
         position: absolute;
         width: 120px;
+        @media (max-width: 400px) {
+            width: 90px;
+        }
     }
 }
 
 .played-card {
     right: 25px;
     transform: scale(1.0) translateX(180px) translateY(-200px) rotate(-10deg);
+    @media (max-width: 400px) {
+        transform: scale(1.0) translateX(110px) translateY(-110px) rotate(-10deg);
+    }
 }
 
 .top-card {
     cursor: pointer;
     transition: all 325ms ease-in-out;
-
+    
     &:hover {
         transform: scale(1.08) translateY(-10px);
     }
 }
 
 .pick-card {
+    z-index: 5;
     animation: pick-card-animation 1.25s ease-in-out;
     transform: scale(1.0) translateX(180px) translateY(-200px) rotate(-10deg);
+    
 }
 
 @keyframes pick-card-animation {
@@ -55,6 +119,25 @@
     }
 }
 
+@media (max-width: 400px) {
+    @keyframes pick-card-animation {
+        0% {
+            transform: scale(1);
+        }
+        40% {
+            transform: scale(1.7);
+        }
+        50% {
+            transform: scale(1.7);
+        }
+        
+        100% {
+            transform: scale(1.0) translateX(110px) translateY(-110px) rotate(-10deg);
+        }
+    }
+}
+
+
 .player-position {
     position: absolute;
     right: 0;
@@ -65,6 +148,25 @@
     position: absolute;
     right: 32px;
     bottom: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    @media (max-width: 720px){
+        right: 10px;
+        bottom: 10px;
+        width: 40px;
+        height: 40px;
+        mat-icon {
+            transform: scale(0.8);
+        }
+    }
+    &:hover {
+        &::after {
+            content: "Add player";
+            position: absolute;
+            top: -35px;
+        }
+    }
 }
 
 .pin-bottom {
@@ -86,25 +188,56 @@
     left: 0;
     right: 0;
     top: 0;
-    overflow-y: hidden;
-    overflow-x: auto;
+    overflow: auto;
+    transform:rotateX(180deg);
+    -ms-transform:rotateX(180deg); /* IE 9 */
+    -webkit-transform:rotateX(180deg); /* Safari and Chrome */
 
     app-player-mobile {
         margin-left: 8px;
+        transform:rotateX(180deg);
+        -ms-transform:rotateX(180deg); /* IE 9 */
+        -webkit-transform:rotateX(180deg); /* Safari and Chrome */
     }
 }
 
-app-player, app-player-mobile {
+app-player {
     cursor: pointer;
-
     &:hover {
-        filter: brightness(1.15);
+        filter: brightness(1.1);        
+    }
+}
+
+app-player-mobile {
+    cursor: pointer;
+    &:hover {
+        filter: brightness(1.1);
     }
 }
 
 .game_over {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    background: linear-gradient(90deg, rgba(250,205,49,1) 0%, rgba(217,165,137,1) 44%, rgba(240,78,0,1) 100%);    
+    width: 100vw;
+    height: 100vh;
+    img {
+        width:clamp(250px,50vw,600px);
+        object-fit: cover;
+        border-radius: 50px;
+    }
+    button {
+        margin-top: 20px;
+    }    
+}
+
+@media (max-width: 720px){
+        .options {
+        left: 10px;
+        top: 140px;   
+        }
     
+
 }

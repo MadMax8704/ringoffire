@@ -17,10 +17,13 @@ export class GameComponent implements OnInit {
   static afterChange(): string {
     throw new Error('Method not implemented.');
   }
-
+  
   game: Game;
   gameId: string;
   gameOver: boolean = false;
+  backgroundImg = "background-1";
+  background = ["background-1","background-2","background-3"] ;
+  backgroundIndex = 0;
   
 
   constructor(private route: ActivatedRoute, private firestore: AngularFirestore, public dialog: MatDialog) { }
@@ -52,7 +55,6 @@ export class GameComponent implements OnInit {
 
   newGame() {
     this.game = new Game();
-
   }
 
   takeCard() {
@@ -71,6 +73,9 @@ export class GameComponent implements OnInit {
         this.saveGame();
       }, 1250);
     }
+    if (this.game.players.length <= 3) {
+      alert("Minimum 4 PLayer needed!");
+    }
   }
 
   editPlayer(playerId: number) {
@@ -85,10 +90,10 @@ export class GameComponent implements OnInit {
         if (change == 'DELETE') {
           this.game.players.splice(playerId, 1)
           this.game.player_images.splice(playerId, 1)
+          this.saveGame();
         } else {
           console.log('Recieved change', change);
-          this.game.player_images[playerId] = change;
-
+          this.game.player_images[playerId] = change;          
           this.saveGame();
         }
       }
@@ -101,24 +106,33 @@ export class GameComponent implements OnInit {
     const dialogRef = this.dialog.open(DialogAddPlayerComponent);
 
     dialogRef.afterClosed().subscribe((name: string) => {
-      if (name && name.length > 0) {
+      if (name && name.length > 0 && this.game.players.length < 12) {
         this.game.players.push(name);
         this.game.player_images.push('unknown.png');
         this.saveGame();
+      }
+      if (this.game.players.length >= 12) {
+        alert("Max player 12");
       }
     });
   }
 
   saveGame() {
-
     this
       .firestore
       .collection('games')
       .doc(this.gameId)
       .update(this.game.toJson());
-
   }
 
+  changeBackground() {
+    if (this.backgroundIndex<2) {
+      this.backgroundIndex++;
+    } else if (this.backgroundIndex = 0) {
+      this.backgroundIndex = 0;
+    }
+      this.backgroundImg = this.background[this.backgroundIndex];
+  }
 }
 
 
