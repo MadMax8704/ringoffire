@@ -24,6 +24,8 @@ export class GameComponent implements OnInit {
   backgroundImg = "background-1";
   background = ["background-1","background-2","background-3"] ;
   backgroundIndex = 0;
+  cardeffect = new Audio('assets/audio/card_effect.mp3');
+
   
 
   constructor(private route: ActivatedRoute, private firestore: AngularFirestore, public dialog: MatDialog) { }
@@ -65,6 +67,7 @@ export class GameComponent implements OnInit {
       this.game.pickCardAnimation = true;
       this.game.currentPlayer++;
       this.game.currentPlayer = this.game.currentPlayer % this.game.players.length;
+      this.cardeffect.play();
       this.saveGame();
 
       setTimeout(() => {
