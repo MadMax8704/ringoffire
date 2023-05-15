@@ -24,7 +24,9 @@ import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { environment } from 'src/environments/environment.prod';
 import { PlayerMobileComponent } from './player-mobile/player-mobile.component';
 import { EditPlayerComponent } from './edit-player/edit-player.component';
-
+import { SettingsService } from './services/settings.service';
+import { SettingsDialogComponent } from './settings-dialog/settings-dialog.component';
+import { MatSliderModule } from '@angular/material/slider';
 
 
 
@@ -37,7 +39,8 @@ import { EditPlayerComponent } from './edit-player/edit-player.component';
     DialogAddPlayerComponent,
     GameInfoComponent,
     PlayerMobileComponent,
-    EditPlayerComponent
+    EditPlayerComponent,
+    SettingsDialogComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
@@ -53,12 +56,13 @@ import { EditPlayerComponent } from './edit-player/edit-player.component';
     MatInputModule,
     FormsModule,
     MatCardModule,
+    MatSliderModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideDatabase(() => getDatabase()),
     provideFirestore(() => getFirestore())
   ],
-  providers: [GameComponent],
+  providers: [GameComponent, SettingsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

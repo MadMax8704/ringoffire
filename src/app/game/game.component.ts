@@ -6,7 +6,8 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { ActivatedRoute } from '@angular/router';
 import { EditPlayerComponent } from '../edit-player/edit-player.component';
 import { ChangeDetectionStrategy } from '@angular/compiler';
-
+import { SettingsService } from '../services/settings.service';
+import { SettingsDialogComponent } from '../settings-dialog/settings-dialog.component';
 
 @Component({
   selector: 'app-game',
@@ -17,23 +18,20 @@ export class GameComponent implements OnInit {
   static afterChange(): string {
     throw new Error('Method not implemented.');
   }
-  
+
   game: Game;
   gameId: string;
   gameOver: boolean = false;
-  backgroundImg = "background-1";
-  background = ["background-1","background-2","background-3"] ;
-  backgroundIndex = 0;
+  settings: boolean = false;
   cardeffect = new Audio('assets/audio/card_effect.mp3');
 
-  
 
-  constructor(private route: ActivatedRoute, private firestore: AngularFirestore, public dialog: MatDialog) { }
+  constructor(public settingsservice: SettingsService, private route: ActivatedRoute, private firestore: AngularFirestore, public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.newGame();
     this.route.params.subscribe((params) => {
-      console.log(params['id']);
+      console.log('Params', params['id']);
       this.gameId = params['id'];
       this
         .firestore
@@ -56,7 +54,8 @@ export class GameComponent implements OnInit {
   }
 
   newGame() {
-    this.game = new Game();
+    this.game = new Game();   
+    this.settingsservice.playedMusic();
   }
 
   takeCard() {
@@ -78,6 +77,7 @@ export class GameComponent implements OnInit {
     }
     if (this.game.players.length <= 3) {
       alert("Minimum 4 PLayer needed!");
+      this.openDialog();
     }
   }
 
@@ -87,7 +87,7 @@ export class GameComponent implements OnInit {
     dialogRef.componentInstance.name = this.game.players[playerId];
     dialogRef.componentInstance.player_image = this.game.player_images[playerId];
     dialogRef.componentInstance.allGivenPictures = this.game.player_images;
-    
+
     dialogRef.afterClosed().subscribe((change: string) => {
       if (change) {
         if (change == 'DELETE') {
@@ -96,7 +96,7 @@ export class GameComponent implements OnInit {
           this.saveGame();
         } else {
           console.log('Recieved change', change);
-          this.game.player_images[playerId] = change;          
+          this.game.player_images[playerId] = change;
           this.saveGame();
         }
       }
@@ -128,14 +128,10 @@ export class GameComponent implements OnInit {
       .update(this.game.toJson());
   }
 
-  changeBackground() {
-    if (this.backgroundIndex<2) {
-      this.backgroundIndex++;
-    } else if (this.backgroundIndex = 0) {
-      this.backgroundIndex = 0;
-    }
-      this.backgroundImg = this.background[this.backgroundIndex];
+  openSettingsDialog() {
+    this.dialog.open(SettingsDialogComponent)
   }
+
 }
 
 

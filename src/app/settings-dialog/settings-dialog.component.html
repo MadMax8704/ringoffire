@@ -1,0 +1,29 @@
+<h1 mat-dialog-title>Settings</h1>
+
+<div class="background-settings">
+    <h3>Change background</h3>
+    <button mat-button (click)="this.settingsservice.changeBackground()">
+        Change
+    </button>
+</div>
+
+<div class="music-options">
+    <h3>Music settings</h3>
+    <div class="music-controls">
+        <img (click)="this.settingsservice.pauseMusic()" src="assets/img/music/pause.png" alt="">
+        <img (click)="this.settingsservice.playMusic()" src="assets/img/music/play.png" alt="">
+        <img (click)="this.settingsservice.nextMusic()" src="assets/img/music/next.png" alt="">
+    </div>
+    <div class="slider-container">
+        <mat-slider (input)="this.settingsservice.volume = $event.value" [value]="this.settingsservice.volume" [max]="1"
+            [min]="0" [step]=".1" name="slidervalue">
+        </mat-slider>
+        <button mat-button (click)="this.settingsservice.playMusic()">
+            Change to {{this.settingsservice.volume}}
+            <span></span>
+        </button>
+    </div>
+
+</div>
+
+<button mat-button (click)="dialogRef.close()">Close</button>

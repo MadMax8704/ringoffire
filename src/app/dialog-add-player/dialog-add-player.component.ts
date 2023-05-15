@@ -1,3 +1,4 @@
+import { InvokeFunctionExpr } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
@@ -17,5 +18,10 @@ export class DialogAddPlayerComponent implements OnInit {
 
   onNoClick() {
     this.dialogRef.close();
+  }
+
+  invite() {
+    navigator.clipboard.writeText(window.location.href);
+    alert('Url copied to clipboard. Share it to your freinds to play together!');
   }
 }
